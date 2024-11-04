@@ -1,0 +1,130 @@
+version: 2
+
+models:
+  - name: stock_prices
+    description: "Table containing raw stock prices."
+    columns:
+      - name: symbol
+        description: "The stock symbol for the price."
+        tests:
+          - not_null  # Ensure no null values in symbol
+      - name: date
+        description: "The date of the stock price."
+        tests:
+          - not_null  # Ensure no null values in date
+      - name: open
+        description: "The opening price of the stock."
+        tests:
+          - not_null  # Ensure no null values in open prices
+      - name: high
+        description: "The highest price of the stock on the given date."
+        tests:
+          - not_null  # Ensure no null values in high prices
+      - name: low
+        description: "The lowest price of the stock on the given date."
+        tests:
+          - not_null  # Ensure no null values in low prices
+      - name: close
+        description: "The closing price of the stock."
+        tests:
+          - not_null  # Ensure no null values in close prices
+      - name: volume
+        description: "The volume of stocks traded."
+        tests:
+          - not_null  # Ensure no null values in volume
+
+  - name: moving_average
+    description: "Model calculating the moving average of stock closing prices."
+    columns:
+      - name: symbol
+        description: "The stock symbol for the moving average."
+        tests:
+          - not_null
+      - name: date
+        description: "The date of the moving average."
+        tests:
+          - not_null
+      - name: close
+        description: "The close of the moving average."
+        tests:
+          - not_null
+      - name: moving_avg_5d
+        description: "The calculated 5 days moving average for the stock closing price."
+        tests:
+          - not_null
+      - name: moving_avg_20d
+        description: "The calculated 20 days moving average for the stock closing price."
+        tests:
+          - not_null
+
+  - name: rsi_calculation
+    description: "Model calculating the Relative Strength Index (RSI) of stock prices."
+    columns:
+      - name: symbol
+        description: "The stock symbol for the RSI."
+        tests:
+          - not_null
+      - name: date
+        description: "The date for the RSI calculation."
+        tests:
+          - not_null
+      - name: close
+        description: "The close for the RSI calculation."
+        tests:
+          - not_null
+      - name: avg_gain
+        description: "Average gain over the specified period."
+        tests:
+          - not_null
+      - name: avg_loss
+        description: "Average loss over the specified period."
+        tests:
+          - not_null
+      - name: rsi_14d
+        description: "The calculated RSI value for the stock."
+        tests:
+          - not_null
+
+  - name: bollinger
+    description: "Model calculating the Bollinger Bands for stock prices."
+    columns:
+      - name: symbol
+        description: "The stock symbol for the Bollinger Bands."
+        tests:
+          - not_null
+      - name: date
+        description: "The date for the Bollinger Bands calculation."
+        tests:
+          - not_null
+      - name: close
+        description: "The close price for the Bollinger Bands calculation."
+        tests:
+          - not_null
+      - name: sma_20d
+        description: "The calculated 20-day simple moving average."
+        tests:
+          - not_null
+      - name: upper_band
+        description: "The upper Bollinger Band."
+        tests:
+          - not_null
+      - name: lower_band
+        description: "The lower Bollinger Band."
+        tests:
+          - not_null
+
+  - name: avg_true_range
+    description: "Model calculating the Average True Range (ATR) for stock prices."
+    columns:
+      - name: date
+        description: "The date for which the ATR is calculated."
+        tests:
+          - not_null  # Ensure no null values in date
+      - name: symbol
+        description: "The stock symbol for which the ATR is calculated."
+        tests:
+          - not_null  # Ensure no null values in symbol
+      - name: atr_14d
+        description: "The calculated 14-day Average True Range."
+        tests:
+          - not_null  # Ensure no null values in atr_14d
