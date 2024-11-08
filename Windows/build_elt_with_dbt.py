@@ -12,11 +12,12 @@ DBT_PROJECT_DIR = "/opt/airflow/stock_dbt"
 
 
 with DAG(
-    "BuildELT_dbt",
-    start_date=datetime(2024, 10, 14),
-    description="A sample Airflow DAG to invoke dbt runs using a BashOperator",
-    schedule=None,
+    "Stock_BuildELT_dbt",
+    start_date=datetime(2024, 11, 7),
+    description="Airflow DAG to invoke dbt runs using a BashOperator",
+    schedule_interval='@daily',
     catchup=False,
+    tags=['stock_prices', 'ELT', 'TTWO', 'GOOGL', 'dbt'] #tags to easily identify the dag in airflow
     default_args={
         "env": {
             "DBT_USER": "{{ conn.snowflake_conn.login }}",
