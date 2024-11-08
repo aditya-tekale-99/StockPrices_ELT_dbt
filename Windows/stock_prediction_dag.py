@@ -111,7 +111,7 @@ with DAG(
     start_date=datetime(2024, 11, 7),
     schedule_interval='@daily',
     catchup=False,
-    tags=['stock_prices', 'ETL', 'TTWO', 'GOOGL', 'ML', 'dbt'] #tags to easily identify the dag in airflow
+    tags=['stock_prices', 'ETL', 'TTWO', 'GOOGL', 'dbt'] #tags to easily identify the dag in airflow
 ) as dag:
 
     raw_data = extract_stock_data()
