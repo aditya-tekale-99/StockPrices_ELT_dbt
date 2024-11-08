@@ -104,117 +104,18 @@ def load_to_snowflake(data):
         raise e
     finally:
         cur.close() #closing snowflake connection
-
-#train task to train the ML model to predict stock prices
-@task
-def train_forecast_model(train_input_table, train_view, forecast_function_name):
-    conn = return_snowflake_conn()
-    cur = conn.cursor()
-    
-    # Creating view in schema adhoc
-    create_view_sql = f"""CREATE OR REPLACE VIEW {train_view} AS 
-                          SELECT CAST(date AS TIMESTAMP_NTZ) AS DATE, 
-                                 CLOSE, SYMBOL 
-                          FROM {train_input_table};"""
-
-    # Creating ML model in adhoc
-    create_model_sql = f"""CREATE OR REPLACE SNOWFLAKE.ML.FORECAST {forecast_function_name} (
-        INPUT_DATA => SYSTEM$REFERENCE('VIEW', '{train_view}'),
-        SERIES_COLNAME => 'SYMBOL',
-        TIMESTAMP_COLNAME => 'DATE',
-        TARGET_COLNAME => 'CLOSE',
-        CONFIG_OBJECT => {{ 'ON_ERROR': 'SKIP' }}
-    );"""
-    
-    try:
-        cur.execute("BEGIN;")
-        # Ensure that the adhoc schema exists
-        cur.execute("USE DATABASE dev;")
-        cur.execute("CREATE SCHEMA IF NOT EXISTS adhoc;")  # Create adhoc schema if not exists
-        cur.execute("USE SCHEMA dev.adhoc;")
-        
-        # Ensure that the analytics schema exists
-        cur.execute("CREATE SCHEMA IF NOT EXISTS analytics;")  # Create analytics schema if not exists
-
-        logging.info(f"Creating view with SQL: {create_view_sql}")
-        cur.execute(create_view_sql)  # Create the view
-        
-        logging.info(f"Creating forecast model with SQL: {create_model_sql}")
-        cur.execute(create_model_sql)  # Create the forecast model
-
-        # Check evaluation metrics (optional)
-        cur.execute(f"CALL {forecast_function_name}!SHOW_EVALUATION_METRICS();")
-
-        cur.execute("COMMIT;")
-    
-    except Exception as e:
-        logging.error(f"Error in train_forecast_model: {e}")
-        cur.execute("ROLLBACK;")
-        raise
-    finally:
-        cur.close()
-        conn.close()
-
-#task to predict stock prices
-@task
-def predict_stock_prices(forecast_function_name, train_input_table, forecast_table, final_table):
-    conn = return_snowflake_conn()
-    cur = conn.cursor()
-
-    make_prediction_sql = f"""BEGIN
-        CALL {forecast_function_name}!FORECAST(
-            FORECASTING_PERIODS => 7,
-            CONFIG_OBJECT => {{'prediction_interval': 0.95}}
-        );
-        LET x := SQLID;
-        CREATE OR REPLACE TABLE {forecast_table} AS SELECT * FROM TABLE(RESULT_SCAN(:x));
-    END;"""
-    
-    create_final_table_sql = f"""CREATE OR REPLACE TABLE {final_table} AS
-        SELECT SYMBOL, DATE, CLOSE AS actual, NULL AS forecast, NULL AS lower_bound, NULL AS upper_bound
-        FROM {train_input_table}
-        UNION ALL
-        SELECT replace(series, '"', '') as SYMBOL, ts as DATE, NULL AS actual, forecast, lower_bound, upper_bound
-        FROM {forecast_table};"""
-    
-    try:        
-        logging.info(f"Making predictions with SQL: {make_prediction_sql}")
-        cur.execute(make_prediction_sql)
-        
-        logging.info(f"Creating final table with SQL: {create_final_table_sql}")
-        cur.execute(create_final_table_sql)
-
-        cur.execute("COMMIT;")
-    
-    except Exception as e:
-        logging.error(f"Error in predict_stock_prices: {e}")
-        cur.execute("ROLLBACK;")
-        raise
-    finally:
-        cur.close()
-        conn.close()
         
 #dag information
 with DAG(
-    dag_id='stock_prediction_model_v1.2',
-    start_date=datetime(2024, 10, 9),
+    dag_id='stock_prediction_model_v1.3',
+    start_date=datetime(2024, 11, 7),
     schedule_interval='@daily',
     catchup=False,
-    tags=['stock_prices', 'ETL', 'TTWO', 'GOOGL', 'ML', 'Forecast'] #tags to easily identify the dag in airflow
+    tags=['stock_prices', 'ETL', 'TTWO', 'GOOGL', 'ML', 'dbt'] #tags to easily identify the dag in airflow
 ) as dag:
 
     raw_data = extract_stock_data()
     transformed_data = transform_stock_data(raw_data)
     load_task = load_to_snowflake(transformed_data)
 
-    # Setting parameters for the next tasks
-    train_input_table = "dev.raw_data.stock_prices"
-    train_view = "dev.adhoc.stock_prices_view"
-    forecast_function_name = "dev.analytics.predict_stock_price"
-    forecast_table = "dev.adhoc.stock_prices_forecast"
-    final_table = "dev.analytics.stock_prices_with_forecast"
-
-    train_task = train_forecast_model(train_input_table, train_view, forecast_function_name)
-    predict_task = predict_stock_prices(forecast_function_name, train_input_table, forecast_table, final_table)
-
-    load_task >> train_task >> predict_task
+    load_task
