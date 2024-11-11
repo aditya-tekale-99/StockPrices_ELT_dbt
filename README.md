@@ -23,7 +23,7 @@ DATA226_Lab2/
 │   ├── models/
 │   │   ├── raw_data/            # Models for raw data transformation
 │   │   │   └── stock_prices.sql # SQL script to create a view from raw stock price data
-│   │   ├── transformations/     # Models for calculating stock indicators
+│   │   ├── tranformations/     # Models for calculating stock indicators
 │   │   │   ├── avg_true_range.sql     # Average True Range calculation
 │   │   │   ├── bollinger.sql          # Bollinger Bands calculation
 │   │   │   ├── moving_average.sql     # Moving Average calculation
