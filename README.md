@@ -20,6 +20,8 @@ DATA226_Lab2/
 │   ├── Stock_prediction_dag.py  # Airflow DAG for ETL and stock price prediction
 │   └── build_elt_with_dbt.py    # Airflow DAG for dbt-based ELT operations
 ├── stock_dbt/
+│   ├── dbt_project.yml          # dbt project configuration file
+│   ├── profiles.yml             # dbt profiles configuration file
 │   ├── models/
 │   │   ├── raw_data/            # Models for raw data transformation
 │   │   │   └── stock_prices.sql # SQL script to create a view from raw stock price data
