@@ -38,24 +38,6 @@ DATA226_Lab2/
 └── README.md                    # Project documentation
 ```
 
-## Key Files
-
-	•	docker-compose-min.yaml: Configures Airflow with dbt for a streamlined environment setup using Docker.
-	•	Stock_prediction_dag.py: Defines an ETL pipeline in Airflow to extract and load data into Snowflake, train a predictive model, and forecast stock prices for the next 7 days.
-	•	build_elt_with_dbt.py: An Airflow DAG to run dbt commands (dbt run, dbt test, dbt snapshot, dbt docs) via Bash operations for ELT processes.
-
-## stock_dbt Directory
-
-	•	models:
-	•	raw_data: Defines a view in the analytics schema to extract raw data from Snowflake.
-	•	tranformations: Contains SQL files that calculate key metrics on the raw data view:
-	•	Average True Range (ATR)
-	•	Bollinger Bands
-	•	Moving Average
-	•	RSI (Relative Strength Index)
-	•	schema.yml: Includes tests to validate data integrity (e.g., checking for null values).
-	•	snapshots: Contains SQL files for creating snapshots of tables in the analytics schema, allowing historical data tracking and point-in-time analysis.
-
 ## Setup
 
 	1.	Clone the repository:
