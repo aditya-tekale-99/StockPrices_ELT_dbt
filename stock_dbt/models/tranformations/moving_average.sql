@@ -3,7 +3,7 @@ WITH stock_data AS (
         symbol,
         date,
         close
-    FROM {{ ref('stock_prices') }} -- assuming 'stock_prices' is the name of the raw table model in dbt
+    FROM {{ ref('stock_prices') }} 
 )
 
 SELECT
@@ -22,4 +22,3 @@ SELECT
     ) AS moving_avg_20d
 FROM stock_data
 ORDER BY symbol, date
-
