@@ -22,10 +22,19 @@ DATA226_Lab2/
 ├── stock_dbt/
 │   ├── models/
 │   │   ├── raw_data/            # Models for raw data transformation
-│   │   ├── transformations/     # Models for calculating indicators (ATR, Bollinger, etc.)
-│   │   ├── schema.yml           # Tests for data validation
+│   │   │   └── stock_prices.sql # SQL script to create a view from raw stock price data
+│   │   ├── transformations/     # Models for calculating stock indicators
+│   │   │   ├── avg_true_range.sql     # Average True Range calculation
+│   │   │   ├── bollinger.sql          # Bollinger Bands calculation
+│   │   │   ├── moving_average.sql     # Moving Average calculation
+│   │   │   └── rsi_calculations.sql   # Relative Strength Oscillator calculations
+│   │   ├── schema.yml           # Data validation tests configuration
 │   │   └── source.yml           # Source configuration for Snowflake data
-│   └── snapshots/               # Snapshot configurations for historical data
+│   └── snapshots/               # Snapshot configurations for historical data tracking
+│       ├── snapshot_atr.sql         # Snapshot for Average True Range
+│       ├── snapshot_bollinger.sql   # Snapshot for Bollinger Bands
+│       ├── snapshot_moving_avg.sql  # Snapshot for Moving Average
+│       └── snapshot_rsi.sql         # Snapshot for Relative Strength Index
 └── README.md                    # Project documentation
 ```
 
