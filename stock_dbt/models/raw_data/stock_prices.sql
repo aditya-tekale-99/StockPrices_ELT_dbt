@@ -10,4 +10,4 @@ WITH stock_data AS (
     FROM {{ source('raw_data', 'stock_prices') }}
 )
 
-SELECT * FROM stock_data;
+SELECT * FROM stock_data
