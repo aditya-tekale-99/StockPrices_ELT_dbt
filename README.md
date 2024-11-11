@@ -12,7 +12,7 @@ This project is part of the DATA226 course and focuses on implementing ETL and E
 
 The project includes a data pipeline for stock data, implementing calculations for average true range, Bollinger Bands, moving averages, and RSI. It also incorporates machine learning to predict stock prices for the next 7 days.
 
-## Project Structure
+Project Structure
 
 DATA226_Lab2/
 ├── docker-compose-min.yaml     # Docker Compose configuration to add dbt in Airflow setup
