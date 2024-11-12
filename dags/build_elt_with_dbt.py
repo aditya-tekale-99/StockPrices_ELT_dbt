@@ -2,6 +2,8 @@ from pendulum import datetime
 
 from airflow import DAG
 from airflow.operators.bash import BashOperator
+from airflow.sensors.external_task import ExternalTaskSensor
+from airflow.models.dagrun import DagRunState
 
 DBT_PROJECT_DIR = "/opt/airflow/stock_dbt"
 
@@ -26,6 +28,15 @@ with DAG(
         }
     },
 ) as dag:
+    wait_for_prediction_model = ExternalTaskSensor(
+        task_id="wait_for_stock_prediction_model",
+        external_dag_id="stock_prediction_model_v1.2",
+        mode="poke",
+        timeout=3600,
+        allowed_states=[DagRunState.SUCCESS],
+        failed_states=[DagRunState.FAILED], 
+    )
+    
     dbt_run = BashOperator(
         task_id="dbt_run",
         bash_command=f"/home/airflow/.local/bin/dbt run --profiles-dir {DBT_PROJECT_DIR} --project-dir {DBT_PROJECT_DIR}",
@@ -51,4 +62,4 @@ with DAG(
     #    bash_command='echo "The value of AA is: $DBT_ACCOUNT,$DBT_ROLE,$DBT_DATABASE,$DBT_WAREHOUSE,$DBT_USER,$DBT_TYPE,$DBT_SCHEMA"'
     # )
 
-    dbt_run >> dbt_test >> dbt_snapshot >> dbt_docs
+    wait_for_prediction_model >> dbt_run >> dbt_test >> dbt_snapshot >> dbt_docs
