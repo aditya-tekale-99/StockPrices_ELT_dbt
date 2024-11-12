@@ -6,6 +6,7 @@ This repository contains files and code for building ETL and ELT pipelines using
 ## Overview
 
 This project is part of the DATA226 course and focuses on implementing ETL and ELT processes using:
+
 	•	dbt (Data Build Tool): For transformations and managing analytics schema in Snowflake.
 	•	Apache Airflow: To schedule and manage the ETL/ELT pipeline.
 	•	Docker Compose: To configure the environment.
