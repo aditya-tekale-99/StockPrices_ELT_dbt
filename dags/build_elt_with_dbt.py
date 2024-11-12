@@ -28,8 +28,8 @@ with DAG(
         }
     },
 ) as dag:
-    wait_for_prediction_model = ExternalTaskSensor(
-        task_id="wait_for_stock_prediction_model",
+    wait_for_etl = ExternalTaskSensor(
+        task_id="wait_for_stock_etl",
         external_dag_id="stock_prediction_model_v1.2",
         mode="poke",
         timeout=3600,
@@ -62,4 +62,4 @@ with DAG(
     #    bash_command='echo "The value of AA is: $DBT_ACCOUNT,$DBT_ROLE,$DBT_DATABASE,$DBT_WAREHOUSE,$DBT_USER,$DBT_TYPE,$DBT_SCHEMA"'
     # )
 
-    wait_for_prediction_model >> dbt_run >> dbt_test >> dbt_snapshot >> dbt_docs
+    wait_for_etl >> dbt_run >> dbt_test >> dbt_snapshot >> dbt_docs
