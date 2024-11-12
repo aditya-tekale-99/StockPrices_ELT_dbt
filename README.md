@@ -1,17 +1,15 @@
-# DATA226_Lab2
-
-This repository contains files and code for building ETL and ELT pipelines using dbt on Snowflake, with Apache Airflow for orchestration and scheduling. The project demonstrates a complete data pipeline, including data extraction, transformation, loading, and basic predictive analytics.
-
+# StockPrices_ELT_dbt
 
 ## Overview
 
-This project is part of the DATA226 course and focuses on implementing ETL and ELT processes using:
+This project focuses on implementing ETL and ELT processes using:
 
 	•	dbt (Data Build Tool): For transformations and managing analytics schema in Snowflake.
+ 	•	Snowflake: Data warehouse to store the raw data and analytics on raw data
 	•	Apache Airflow: To schedule and manage the ETL/ELT pipeline.
-	•	Docker Compose: To configure the environment.
+	•	Docker: To configure the environment.
 
-The project includes a data pipeline for stock data, implementing calculations for average true range, Bollinger Bands, moving averages, and RSI. It also incorporates machine learning to predict stock prices for the next 7 days.
+The project includes a data pipeline for stock data, implementing calculations for Average True Range, Bollinger Bands, Moving Averages, and RSI.
 
 ## Project Structure
 ```
