@@ -41,21 +41,11 @@ DATA226_Lab2/
 
 ## Setup
 
-	1.	Clone the repository:
-
-git clone https://github.com/aditya-tekale-99/DATA226_Lab2.git
-cd DATA226_Lab2
-
-
-	2.	Start Docker Compose:
-Run the following command to start services defined in docker-compose-min.yaml:
-
-docker-compose -f docker-compose-min.yaml up
-
-
+	1.	Clone the repository: git clone https://github.com/aditya-tekale-99/DATA226_Lab2.git
+	2.	Start Docker Compose: docker-compose -f docker-compose-min.yaml up
 	3.	Configure Snowflake and dbt:
-	•	Ensure Snowflake credentials are set up in the dbt profile.
-	•	Adjust the dbt project settings as needed for your Snowflake environment.
+		Ensure Snowflake credentials are set up in the dbt profile.
+		Adjust the dbt project settings as needed for your Snowflake environment.
 
 ## Usage
 
