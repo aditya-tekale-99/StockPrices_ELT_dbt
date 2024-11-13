@@ -46,8 +46,3 @@ DATA226_Lab2/
 	3.	Configure Snowflake and dbt:
 		Ensure Snowflake credentials are set up in the dbt profile.
 		Adjust the dbt project settings as needed for your Snowflake environment.
-
-## Usage
-
-	•	Run ETL Pipeline: Use Stock_prediction_dag.py to execute the full ETL pipeline, including stock prediction.
-	•	Execute ELT Operations: Use build_elt_with_dbt.py to perform ELT processes with dbt, including transformations and documentation.
