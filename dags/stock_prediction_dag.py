@@ -116,4 +116,4 @@ with DAG(
     transformed_data = transform_stock_data(raw_data)
     load_task = load_to_snowflake(transformed_data)
 
-    load_task
+    raw_data >> transformed_data >> load_task
