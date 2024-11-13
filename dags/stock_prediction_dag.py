@@ -26,7 +26,6 @@ def extract_stock_data():
         data = response.json()
         
         if "Time Series (Daily)" in data:
-            # Limiting data to the latest 90 days
             daily_data = data["Time Series (Daily)"]
             latest_90_days_data = dict(list(daily_data.items())[:90])
             stock_data[symbol] = latest_90_days_data
@@ -46,7 +45,6 @@ def transform_stock_data(raw_data):
             logging.warning(f"No daily data for {symbol}.")
             continue
 
-        #for loop to append the data in the desired format to load in snowflake
         for date, price_info in daily_data.items():
             transformed_data.append({
                 'symbol': symbol,
@@ -64,8 +62,8 @@ def transform_stock_data(raw_data):
 #task to load transformed data into snowflake table
 @task
 def load_to_snowflake(data):
-    conn = return_snowflake_conn() #opening connection to snowflake
-    cur = conn.cursor() #defining cursor object
+    conn = return_snowflake_conn() 
+    cur = conn.cursor() 
     try:
         cur.execute("BEGIN;")
         cur.execute("CREATE DATABASE IF NOT EXISTS dev;")
@@ -111,7 +109,7 @@ with DAG(
     start_date=datetime(2024, 11, 11),
     schedule_interval='@daily',
     catchup=False,
-    tags=['stock_prices', 'ETL', 'TTWO', 'GOOGL', 'ML', 'Forecast'] #tags to easily identify the dag in airflow
+    tags=['stock_prices', 'ETL', 'TTWO', 'GOOGL', 'Analytics'] #tags to easily identify the dag in airflow
 ) as dag:
 
     raw_data = extract_stock_data()
