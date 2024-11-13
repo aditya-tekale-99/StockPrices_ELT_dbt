@@ -7,31 +7,31 @@ models:
       - name: symbol
         description: "The stock symbol for the price."
         tests:
-          - not_null  # Ensure no null values in symbol
+          - not_null 
       - name: date
         description: "The date of the stock price."
         tests:
-          - not_null  # Ensure no null values in date
+          - not_null  
       - name: open
         description: "The opening price of the stock."
         tests:
-          - not_null  # Ensure no null values in open prices
+          - not_null 
       - name: high
         description: "The highest price of the stock on the given date."
         tests:
-          - not_null  # Ensure no null values in high prices
+          - not_null  
       - name: low
         description: "The lowest price of the stock on the given date."
         tests:
-          - not_null  # Ensure no null values in low prices
+          - not_null  
       - name: close
         description: "The closing price of the stock."
         tests:
-          - not_null  # Ensure no null values in close prices
+          - not_null  
       - name: volume
         description: "The volume of stocks traded."
         tests:
-          - not_null  # Ensure no null values in volume
+          - not_null  
 
   - name: moving_average
     description: "Model calculating the moving average of stock closing prices."
@@ -119,12 +119,12 @@ models:
       - name: date
         description: "The date for which the ATR is calculated."
         tests:
-          - not_null  # Ensure no null values in date
+          - not_null  
       - name: symbol
         description: "The stock symbol for which the ATR is calculated."
         tests:
-          - not_null  # Ensure no null values in symbol
+          - not_null  
       - name: atr_14d
         description: "The calculated 14-day Average True Range."
         tests:
-          - not_null  # Ensure no null values in atr_14d
+          - not_null  
